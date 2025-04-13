@@ -61,3 +61,163 @@ files.download(csv_filename)
 
 print(f"\nCSV file '{csv_filename}' has been created and downloaded.")
 
+## Generation of Company Trends URLs
+
+import pandas as pd
+import csv
+from io import StringIO
+import re
+
+# Define company data - using a list of lists to avoid CSV parsing issues
+company_data = """Name,Ticker
+Hindustan Zinc Limited,HINDZINC
+Mahindra & Mahindra Financial Services Ltd.,M&MFIN
+Mahindra & Mahindra Ltd.,M&M
+Tata Communications Limited,TATACOMM
+Tech Mahindra Limited,TECHM
+Bharat Petroleum Corporation Limited,BPCL
+Ashok Leyland Limited,ASHOKLEY
+Steel Authority of India Limited,SAIL
+Vodafone Idea Ltd,IDEA
+Zydus Lifesciences Limited,ZYDUSLIFE
+Godrej Industries Limited,GODREJIND
+Power Finance Corporation Limited,PFC
+Bharat Heavy Electricals Limited,BHEL
+Punjab National Bank,PNB
+Mangalore Refinery & Petrochemicals Ltd.,MRPL
+Coca-Cola HBC AG,CCH
+Barclays PLC,BARC
+Kingfisher Plc,KGF
+Jupiter Fund Management plc,JUP
+Serco Group plc,SRP
+Chemring Group PLC,CHG
+easyJet plc,EZJ
+Fresnillo PLC,FRES
+Close Brothers Group plc,CBG
+Grainger plc,GRI
+ME Group International plc,MEGP
+Clarkson PLC,CKN
+Schroder Real Estate Investment Trust Ltd,SREI
+S&U plc,SUS
+Kier Group plc,KIE
+Johnson & Johnson,JNJ
+Coca-Cola Europacific Partners plc,CCEP
+Hewlett Packard Enterprise Co.,HPE
+Intel Corporation,INTC
+HP Inc.,HPQ
+Honeywell International Inc.,HON
+Halliburton Company,HAL
+UnitedHealth Group Incorporated,UNH
+Cincinnati Financial Corporation,CINF
+Walt Disney Company,DIS
+BioMarin Pharmaceutical Inc.,BMRN
+Lennar Corporation Class A,LEN
+NVR Inc.,NVR
+O'Reilly Automotive Inc.,ORLY
+Berkshire Hathaway Inc. Class A,BRK.A"""
+
+# Parse the data manually
+rows = company_data.strip().split('\n')
+header = rows[0].split(',')
+data = []
+
+for row in rows[1:]:
+    # Find the last comma to split correctly
+    last_comma_pos = row.rfind(',')
+    name = row[:last_comma_pos].strip()
+    ticker = row[last_comma_pos+1:].strip()
+    data.append([name, ticker])
+
+# Create dataframe
+df = pd.DataFrame(data, columns=header)
+
+# Clean company names to remove Ltd, Limited, etc.
+def clean_company_name(name):
+    # Remove common company suffixes and jargon
+    patterns = [
+        r'\sLimited$', r'\sLtd\.?$', r'\sInc\.?$', r'\sCorporation$',
+        r'\sCorp\.?$', r'\sAG$', r'\sPLC$', r'\splc$', r'\sClass\s[A-Z]$',
+        r'\sCo\.?$', r'\s&\sCo\.?$', r',.*$',    # Remove everything after a comma
+        r'\s+Ltd\.?$'  # Catch Ltd with spaces before
+    ]
+
+    cleaned = name
+    for pattern in patterns:
+        cleaned = re.sub(pattern, '', cleaned, flags=re.IGNORECASE)
+
+    # Remove trailing periods, commas, and whitespace
+    cleaned = cleaned.strip(' .,')
+
+    return cleaned
+
+# Apply cleaning to company names
+df['Clean_Name'] = df['Name'].apply(clean_company_name)
+
+# Define years
+years = list(range(2020, 2025))
+
+# Function to create URL for a term and year
+def create_url(term, year):
+    start_date = f"{year}-01-01"
+    end_date = f"{year}-12-31"
+
+    # URL pattern for Google Trends with 5 regions
+    term_encoded = term.replace(' ', '%20').replace('&', '%26')
+    return f"https://trends.google.com/trends/explore?date={start_date}%20{end_date},{start_date}%20{end_date},{start_date}%20{end_date},{start_date}%20{end_date},{start_date}%20{end_date}&geo=US,GB,IN,SG,AU&q={term_encoded},{term_encoded},{term_encoded},{term_encoded},{term_encoded}&hl=en"
+
+# Create a list to store all URL data
+url_data = []
+
+# Generate URLs for each company name and year
+for index, row in df.iterrows():
+    company_name = row['Clean_Name']
+    ticker = row['Ticker']
+
+    # Generate URLs for company name
+    for year in years:
+        url_data.append({
+            'term': company_name,
+            'type': 'Company Name',
+            'year': year,
+            'url': create_url(company_name, year)
+        })
+
+    # Generate URLs for ticker
+    for year in years:
+        url_data.append({
+            'term': ticker,
+            'type': 'Ticker',
+            'year': year,
+            'url': create_url(ticker, year)
+        })
+
+# Create a DataFrame with the URL data
+url_df = pd.DataFrame(url_data)
+
+# Save to CSV
+url_df.to_csv('company_trends_urls.csv', index=False)
+
+# Display statistics
+print(f"Total companies: {len(df)}")
+print(f"Total URLs generated: {len(url_df)}")
+print(f"Company name URLs: {len(url_df[url_df['type'] == 'Company Name'])}")
+print(f"Ticker URLs: {len(url_df[url_df['type'] == 'Ticker'])}")
+
+# Display sample of cleaned company names for verification
+print("\nSample of cleaned company names:")
+for index, row in df.head(10).iterrows():
+    print(f"Original: {row['Name']}")
+    print(f"Cleaned: {row['Clean_Name']}")
+    print("---")
+
+# Display sample URLs to verify
+print("\nSample URLs:")
+for index, row in url_df.sample(5).iterrows():
+    print(f"Term: {row['term']} ({row['type']}), Year: {row['year']}")
+    print(f"URL: {row['url']}")
+    print("---")
+
+# For Colab, add this to download the file
+from google.colab import files
+files.download('company_trends_urls.csv')
+
