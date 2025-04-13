@@ -660,4 +660,68 @@ if __name__ == "__main__":
     for year in [2020, 2021, 2022, 2023, 2024]:
         normalize_data(year)
 
-## 
+## Calculate Trends Absolute Change
+
+import pandas as pd
+import numpy as np
+
+def calculate_absolute_changes(input_file, output_file):
+    """
+    Calculate absolute changes between consecutive rows for all columns except the first one.
+
+    Parameters:
+    input_file (str): Path to the input CSV file
+    output_file (str): Path to save the output CSV file
+    """
+    try:
+        # Read the CSV file
+        df = pd.read_csv(input_file)
+
+        # Make a copy of the original dataframe structure for changes
+        df_changes = pd.DataFrame()
+
+        # Keep the first column (assuming it's the date/index column)
+        df_changes[df.columns[0]] = df[df.columns[0]].iloc[1:].reset_index(drop=True)
+
+        # Process each column except the first one
+        for column in df.columns[1:]:
+            # Convert special values like '<1' to numeric
+            current_series = df[column].copy()
+            current_series = current_series.replace('<1', 0.5)
+
+            # Convert to numeric, coercing errors to NaN
+            current_series = pd.to_numeric(current_series, errors='coerce')
+
+            # Fill NaN values with 0 to avoid calculation issues
+            current_series = current_series.fillna(0)
+
+            # Calculate the absolute differences
+            diff_series = current_series.diff().iloc[1:].reset_index(drop=True)
+
+            # Add the differences to the result dataframe
+            df_changes[column] = diff_series
+
+        # Save to CSV
+        df_changes.to_csv(output_file, index=False)
+        print(f"Absolute changes saved to {output_file}")
+
+        return df_changes
+
+    except Exception as e:
+        print(f"Error processing CSV: {e}")
+        return None
+
+# Example usage
+if __name__ == "__main__":
+    input_file = "/content/Trends_Gen_Normalized.csv"
+    output_file = "trends_gen_absolute.csv"
+
+    # Calculate and save absolute changes
+    changes_df = calculate_absolute_changes(input_file, output_file)
+
+    # Show first few rows of the changes
+    if changes_df is not None:
+        print("\nFirst 5 rows of the absolute changes:")
+        print(changes_df.head())
+
+
