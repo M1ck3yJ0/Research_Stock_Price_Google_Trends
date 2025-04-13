@@ -578,4 +578,86 @@ input_file = "/content/combined.csv"  # The name of your uploaded file
 output_file = "transformed_monthly_trends.csv"  # The name you want for the transformed file
 clean_csv(input_file, output_file)
 
+## Normalization of General Trends Data
+
+import pandas as pd
+import numpy as np
+
+def normalize_data(year):
+    # Load weekly data
+    weekly_df = pd.read_csv(f'trends_gen_{year}.csv')
+    weekly_df['Week'] = pd.to_datetime(weekly_df['Week'], format='%m/%d/%y')
+
+    # Convert string "<1" to 0.5 and ensure all columns are properly typed
+    for col in weekly_df.columns:
+        if col != 'Week':
+            # First, try to convert strings to numeric where possible
+            try:
+                # Replace "<1" with 0.5 before conversion
+                if weekly_df[col].dtype == 'object':
+                    weekly_df[col] = weekly_df[col].replace("<1", "0.5")
+                    weekly_df[col] = pd.to_numeric(weekly_df[col], errors='coerce')
+
+                # If it's now numeric, replace any value <1 with 0.5
+                if pd.api.types.is_numeric_dtype(weekly_df[col]):
+                    weekly_df[col] = weekly_df[col].apply(lambda x: 0.5 if pd.notna(x) and x < 1 else x)
+            except:
+                pass
+
+    # Load monthly data
+    monthly_df = pd.read_csv('trends_gen_all.csv')
+    monthly_df['Month'] = pd.to_datetime(monthly_df['Month'], format='%Y-%m')
+    monthly_df['Year'] = monthly_df['Month'].dt.year
+
+    # Filter monthly data for the specific year
+    monthly_year_df = monthly_df[monthly_df['Year'] == year]
+
+    # Create a new dataframe for normalized data
+    normalized_df = weekly_df.copy()
+
+    # Get columns that need normalization (excluding Week column and non-numeric columns)
+    columns_to_normalize = []
+    for col in weekly_df.columns:
+        if col != 'Week' and pd.api.types.is_numeric_dtype(weekly_df[col]):
+            if col in monthly_df.columns:
+                # Also convert string "<1" to 0.5 in monthly data
+                if monthly_df[col].dtype == 'object':
+                    monthly_df[col] = monthly_df[col].replace("<1", "0.5")
+                    monthly_df[col] = pd.to_numeric(monthly_df[col], errors='coerce')
+
+                if pd.api.types.is_numeric_dtype(monthly_df[col]):
+                    columns_to_normalize.append(col)
+
+    # Calculate and apply adjustment factors for each column
+    for col in columns_to_normalize:
+        try:
+            # Calculate the average values
+            weekly_avg = weekly_df[col].mean()
+            monthly_avg = monthly_year_df[col].mean()
+
+            # Skip if there are issues with the data
+            if pd.isna(weekly_avg) or pd.isna(monthly_avg) or weekly_avg == 0:
+                continue
+
+            # Calculate adjustment factor
+            adjustment_factor = monthly_avg / weekly_avg
+
+            # Apply adjustment to the data and round to whole numbers
+            normalized_values = weekly_df[col] * adjustment_factor
+            normalized_values = normalized_values.round().astype(int)
+            normalized_df[col] = normalized_values
+
+        except Exception:
+            continue
+
+    # Save normalized data
+    output_file = f'trends_normalized_{year}.csv'
+    normalized_df.to_csv(output_file, index=False)
+    print(f"Generated: {output_file}")
+
+# Run the normalization for all years
+if __name__ == "__main__":
+    for year in [2020, 2021, 2022, 2023, 2024]:
+        normalize_data(year)
+
 ## 
