@@ -724,4 +724,7 @@ if __name__ == "__main__":
         print("\nFirst 5 rows of the absolute changes:")
         print(changes_df.head())
 
+# Correlation Analysis
+
+!pip install tabulate seaborn matplotlib
 
