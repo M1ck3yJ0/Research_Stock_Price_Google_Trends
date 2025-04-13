@@ -4,3 +4,60 @@
 
 ## Generation of Gen All-Time Trends URLs
 
+import pandas as pd
+import urllib.parse
+from google.colab import files
+
+# List of keywords
+keywords = [
+  "Election", "Congress", "Legislation", "Policy", "Regulation",
+  "War", "Conflict", "Treaty", "Agreement", "Recession",
+  "Inflation", "Unemployment", "GDP", "Rates", "Economy",
+  "Market", "Investment", "Debt", "Currency", "Interest",
+  "Sustainable", "Sustainability", "ESG", "Climate", "Carbon",
+  "Renewable", "Diversity", "Ethics", "Governance", "Emissions",
+  "Green", "Environmental", "Waste", "Labor", "Innovation",
+  "Disruption", "Technology", "Digital", "AI", "Data",
+  "Growth", "Crisis", "Scandal", "Bankruptcy", "Lawsuit",
+  "Sales", "Cost", "Risk", "Confidence", "Uncertainty",
+  "Recovery", "Layoffs", "Trade", "Tariffs", "Energy",
+  "Supply", "Shortage", "Sanctions", "Pandemic", "Stocks",
+  "Shares", "Investing", "Portfolio", "Dividends", "Earnings",
+  "Revenue", "Profit", "Loss", "Rally", "Crash",
+  "Bear", "Bull", "Liquidity", "Volatility", "Fund",
+  "Merger", "Acquisition", "Valuation", "Downgrade", "Upgrade"
+]
+
+# List of countries/regions
+regions = ["US", "GB", "IN", "SG", "AU"]
+regions_param = ",".join(regions)
+
+# Generate URLs for each keyword
+data = []
+for keyword in keywords:
+    # Create the q parameter with the keyword repeated for each region
+    q_param = ",".join([keyword] * 5)  # Repeat the keyword 5 times
+
+    # Construct the URL
+    url = f"https://trends.google.com/trends/explore?date=all,all,all,all,all&geo={regions_param}&q={q_param}&hl=en"
+
+    data.append({"keyword": keyword, "url": url})
+
+# Create a DataFrame
+df = pd.DataFrame(data)
+
+# Preview the first few URLs
+print("Preview of generated URLs (first 5):")
+for i in range(min(5, len(data))):
+    print(f"\nKeyword: {data[i]['keyword']}")
+    print(f"URL: {data[i]['url']}")
+
+print(f"\nTotal URLs generated: {len(data)}")
+
+# Save to CSV and download
+csv_filename = "google_trends_urls.csv"
+df.to_csv(csv_filename, index=False)
+files.download(csv_filename)
+
+print(f"\nCSV file '{csv_filename}' has been created and downloaded.")
+
