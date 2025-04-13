@@ -423,4 +423,159 @@ input_file = "/content/Trends_combined_RAW.csv"  # The name of your uploaded fil
 output_file = "transformed_Trends.csv"  # The name you want for the transformed file
 clean_csv(input_file, output_file)
 
+## Cleaning Gen All-Time Trends Data
+
+#!/usr/bin/env python3
+# Modified CSV Cleaner for Monthly Google Trends Data
+# This script transforms your combined CSV file by:
+# 1. Filtering only dates from Jan 2020 to Dec 2024
+# 2. Organizing data with keywords as columns (one per country)
+# 3. Creating a wide format with dates as rows and keyword-country pairs as columns
+
+import re
+import os
+import csv
+from collections import defaultdict
+from datetime import datetime
+from google.colab import files
+
+def clean_csv(input_file, output_file):
+    """
+    Transform a combined CSV file into a wide format with dates as rows and
+    keyword-country pairs as columns. Specifically designed for monthly data
+    and filters dates between Jan 2020 and Dec 2024.
+
+    Args:
+        input_file (str): Path to the input CSV file
+        output_file (str): Path to save the transformed CSV file
+
+    Returns:
+        dict: Statistics about the transformation process
+    """
+    try:
+        # Read the input file
+        with open(input_file, 'r', encoding='utf-8') as f:
+            lines = f.read().splitlines()
+
+        # Track keywords, countries, and data
+        keywords = []
+        countries = ["United States", "United Kingdom", "India", "Singapore", "Australia"]
+        data_by_keyword_country = {}
+        dates_set = set()
+
+        # Define date range filter
+        start_date = "2020-01"
+        end_date = "2024-12"
+
+        current_keyword = None
+
+        # First pass: Extract keywords and collect data
+        for i, line in enumerate(lines):
+            line = line.strip()
+
+            if line == '':
+                # Skip blank lines for regular processing
+                continue
+            elif 'Category:' in line:
+                # Skip category lines
+                continue
+            elif line.startswith('Month,'):
+                # Extract keyword from header line
+                parts = line.split(',')
+                if len(parts) > 1:
+                    first_part = parts[1]  # e.g., "Keyword: (United States)"
+                    keyword_match = re.search(r'([^:]+):', first_part)
+                    if keyword_match:
+                        current_keyword = keyword_match.group(1).strip()
+                        if current_keyword not in keywords:
+                            keywords.append(current_keyword)
+            elif re.match(r'^\d{4}-\d{2}', line) and current_keyword:
+                # Process data row (e.g., "2020-01,5,19,18,33,18")
+                parts = line.split(',')
+                if len(parts) >= 6:  # Ensure we have enough parts
+                    date = parts[0]
+
+                    # Filter dates
+                    if date < start_date or date > end_date:
+                        continue
+
+                    dates_set.add(date)
+
+                    # Store values for each country
+                    for j, country in enumerate(countries):
+                        country_idx = j + 1  # Index in the CSV row (1-5)
+                        if country_idx < len(parts):
+                            key = f"{current_keyword} ({country})"
+                            if key not in data_by_keyword_country:
+                                data_by_keyword_country[key] = {}
+
+                            # Store the value for this date
+                            try:
+                                data_by_keyword_country[key][date] = float(parts[country_idx])
+                            except ValueError:
+                                # Handle non-numeric values
+                                data_by_keyword_country[key][date] = parts[country_idx]
+
+        # Sort dates chronologically
+        all_dates = sorted(list(dates_set), key=lambda x: datetime.strptime(x, '%Y-%m'))
+
+        # Create column headers (Month + all keyword-country combinations)
+        headers = ["Month"]
+        for keyword in keywords:
+            for country in countries:
+                headers.append(f"{keyword} ({country})")
+
+        # Create the output rows
+        output_rows = [headers]
+
+        # Add all regular dates
+        for date in all_dates:
+            row = [date]
+            # Add data for each keyword-country combination
+            for keyword in keywords:
+                for country in countries:
+                    key = f"{keyword} ({country})"
+                    value = data_by_keyword_country.get(key, {}).get(date, "")
+                    row.append(str(value))
+            output_rows.append(row)
+
+        # Write to output file
+        with open(output_file, 'w', encoding='utf-8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerows(output_rows)
+
+        print(f"Original CSV had {len(lines)} lines")
+        print(f"Transformed CSV has {len(output_rows)} rows (header + {len(all_dates)} date rows)")
+        print(f"Created {len(headers) - 1} keyword-country columns")
+        print(f"Date range: {all_dates[0]} to {all_dates[-1]}")
+        print(f"File successfully saved to {output_file}")
+
+        # Download the file automatically in Colab
+        try:
+            files.download(output_file)
+            print(f"File download initiated for {output_file}")
+        except:
+            print("Note: To download the file in Colab, you may need to run this in a cell with '!python script.py'")
+
+        return {
+            "original_line_count": len(lines),
+            "transformed_row_count": len(output_rows),
+            "column_count": len(headers),
+            "keyword_count": len(keywords),
+            "date_count": len(all_dates),
+        }
+
+    except Exception as e:
+        print(f"Error processing CSV: {str(e)}")
+        return None
+
+# Use this in a Colab notebook as follows:
+# 1. Upload your combined.csv file to Colab
+# 2. Run this cell with the following code (uncomment and replace with your actual filenames)
+
+# Example usage
+input_file = "/content/combined.csv"  # The name of your uploaded file
+output_file = "transformed_monthly_trends.csv"  # The name you want for the transformed file
+clean_csv(input_file, output_file)
+
 ## 
