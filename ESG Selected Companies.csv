@@ -1,0 +1,46 @@
+﻿Name,Ticker,FTSE ESG Country Code,FTSE ESG Industry,FTSE ESG Super Sec,FTSE ESG Sector,FTSE ESG Subsector,FTSE ESG Exchg,FTSE ESG Rating 2025,FTSE ESG Rating 2024,FTSE ESG Rating 2023,FTSE ESG Rating 2022,FTSE ESG Rating 2021,FTSE ESG Rating 2020,Change 5 Years,Market Cap
+Coca-Cola HBC AG,CCH,UK,Consumer Staples,"Food, Beverage and Tobacco",Beverages,Soft Drinks,XLON,4.9,4.8,4.8,4.5,4.6,4.7,0.2,Large Cap
+Barclays PLC,BARC,UK,Financials,Banks,Banks,Banks,XLON,4.7,4.7,4.7,4.2,4.7,4.8,-0.1,Large Cap
+Johnson & Johnson,JNJ,USA,Health Care,Health Care  ,Pharmaceuticals and Biotechnology,Pharmaceuticals,XNYS,4.7,4.6,4.6,4.3,4.4,4.1,0.6,Large Cap
+Coca-Cola Europacific Partners plc,CCEP,USA,Consumer Staples,"Food, Beverage and Tobacco",Beverages,Soft Drinks,XNAS,4.6,4.4,4.6,4.4,4.7,4.6,0,Large Cap
+Jupiter Fund Management plc,JUP,UK,Financials,Financial Services,Investment Banking and Brokerage Services,Asset Managers and Custodians,XLON,4.6,4.6,4.5,4.4,4.5,4.5,0.1,Small Cap
+Kingfisher Plc,KGF,UK,Consumer Discretionary,Retail,Retailers,Home Improvement Retailers,XLON,4.6,4.3,4.6,4.6,4.5,4.5,0.1,Large Cap
+Hewlett Packard Enterprise Co.,HPE,USA,Technology,Technology,Software and Computer Services,Computer Services,XNYS,4.5,4.4,4,4,4.2,3.2,1.3,Large Cap
+HP Inc.,HPQ,USA,Technology,Technology,Technology Hardware and Equipment,Computer Hardware,XNYS,4.5,4.5,4.4,3.8,4.3,4.3,0.2,Large Cap
+Intel Corporation,INTC,USA,Technology,Technology,Technology Hardware and Equipment,Semiconductors,XNAS,4.5,4.5,4.5,4.4,4.5,4.1,0.4,Large Cap
+Serco Group plc,SRP,UK,Industrials,Industrial Goods and Services,Industrial Support Services,Professional Business Support Services,XLON,4.5,4.1,3.5,3.2,3.6,3.6,0.9,Small Cap
+Hindustan Zinc Limited,HINDZINC,IND,Basic Materials,Basic Resources,Industrial Metals and Mining,Nonferrous Metals,XNSE,4.4,4.2,4.2,4,4.3,4.3,0.1,Large Cap
+Mahindra & Mahindra Financial Services Ltd.,M&MFIN,IND,Financials,Financial Services,Finance and Credit Services,Consumer Lending,XNSE,4.3,4.3,3.9,4.2,4.6,4.4,-0.1,Mid Cap
+Mahindra & Mahindra Ltd.,M&M,IND,Consumer Discretionary,Automobiles and Parts,Automobiles and Parts,Automobiles,XNSE,4.1,3.6,3.7,3.9,4.3,4.3,-0.2,Large Cap
+Tata Communications Limited,TATACOMM,IND,Telecommunications,Telecommunications,Telecommunications Service Providers,Telecommunications Services,XNSE,4.1,3.6,3.4,3.6,3.7,3.6,0.5,Mid Cap
+Tech Mahindra Limited,TECHM,IND,Technology,Technology,Software and Computer Services,Computer Services,XNSE,4.1,4.1,4.1,4.1,4.6,4.8,-0.7,Large Cap
+Chemring Group PLC,CHG,UK,Industrials,Industrial Goods and Services,Aerospace and Defense,Defense,XLON,3.5,3.5,3.5,3.4,3.3,3.3,0.2,Small Cap
+Close Brothers Group plc,CBG,UK,Financials,Banks,Banks,Banks,XLON,3.5,3.3,3.4,2.9,3.1,3.4,0.1,Small Cap
+EasyJet plc,EZJ,UK,Consumer Discretionary,Travel and Leisure,Travel and Leisure,Airlines,XLON,3.5,3.5,3.2,3.1,2.7,3.4,0.1,Large Cap
+Fresnillo PLC,FRES,UK,Basic Materials,Basic Resources,Precious Metals and Mining,Gold Mining,XLON,3.5,3.6,3.6,3.6,3.3,3.5,0,Large Cap
+Grainger plc,GRI,UK,Real Estate,Real Estate,Real Estate Investment and Services,Real Estate Holding and Development,XLON,3.5,3.4,3.4,3.1,3.8,3.7,-0.2,Mid Cap
+Bharat Petroleum Corporation Limited,BPCL,IND,Energy,Energy,Oil Gas and Coal,Oil Refining and Marketing,XNSE,3.4,3.4,3.2,3.1,3.3,3.1,0.3,Large Cap
+Ashok Leyland Limited,ASHOKLEY,IND,Industrials,Industrial Goods and Services,Industrial Transportation,Commercial Vehicles and Parts,XNSE,3.3,3,2.9,2.2,2.9,2.9,0.4,Mid Cap
+Cincinnati Financial Corporation,CINF,USA,Financials,Insurance,Non-life Insurance,Property and Casualty Insurance,XNAS,3.3,3.3,3.3,3.7,3.5,3.3,0,Mid Cap
+Halliburton Company,HAL,USA,Energy,Energy,Oil Gas and Coal,Oil Equipment and Services,XNYS,3.3,3,2.9,2.9,3.1,3.1,0.2,Mid Cap
+Honeywell International Inc.,HON,USA,Industrials,Industrial Goods and Services,General Industrials,Diversified Industrials,XNAS,3.3,3.2,3.1,3.1,3,3,0.3,Large Cap
+Steel Authority of India Limited,SAIL,IND,Basic Materials,Basic Resources,Industrial Metals and Mining,Iron and Steel,XNSE,3.3,2.9,2.8,3.1,3.3,3.2,0.1,Mid Cap
+UnitedHealth Group Incorporated,UNH,USA,Health Care,Health Care  ,Health Care Providers,Health Care Management Services,XNYS,3.3,3.2,3.2,3,2.8,2.8,0.5,Large Cap
+Vodafone Idea Ltd,IDEA,IND,Telecommunications,Telecommunications,Telecommunications Service Providers,Telecommunications Services,XNSE,3.3,3.3,2.8,3.1,3.1,3.2,0.1,Large Cap
+Walt Disney Company,DIS,USA,Consumer Discretionary,Media,Media,Entertainment,XNYS,3.3,3.1,3.1,3,2.8,3,0.3,Large Cap
+Zydus Lifesciences Limited,ZYDUSLIFE,IND,Health Care,Health Care  ,Pharmaceuticals and Biotechnology,Pharmaceuticals,XNSE,3.3,3.1,3.1,1.9,2.4,2.4,0.9,Mid Cap
+Godrej Industries Limited,GODREJIND,IND,Industrials,Industrial Goods and Services,General Industrials,Diversified Industrials,XNSE,2.4,2.4,2.3,2.5,2.4,2.4,0,Mid Cap
+Power Finance Corporation Limited,PFC,IND,Financials,Financial Services,Finance and Credit Services,Consumer Lending,XNSE,2.4,2.8,2.5,2.7,2.9,2.9,-0.5,Mid Cap
+Bharat Heavy Electricals Limited,BHEL,IND,Industrials,Industrial Goods and Services,Industrial Engineering,Machinery: Specialty,XNSE,2.3,2.5,2.6,2.6,2.7,2.7,-0.4,Large Cap
+Clarkson PLC,CKN,UK,Industrials,Industrial Goods and Services,Industrial Transportation,Marine Transportation,XLON,2.3,2.1,2.1,2.2,2.5,2.5,-0.2,Mid Cap
+Kier Group plc,KIE,UK,Industrials,Construction and Materials,Construction and Materials,Construction,XLON,2.3,2.6,2.9,2.9,3.7,3.4,-1.1,Mid Cap
+ME Group International plc,MEGP,UK,Consumer Discretionary,Consumer Products and Services,Leisure Goods,Photography,XLON,2.3,2.3,1.6,1.7,1.8,1.8,0.5,Mid Cap
+Punjab National Bank,PNB,IND,Financials,Banks,Banks,Banks,XNSE,2.2,2.2,2.2,2.3,2.5,2.5,-0.3,Large Cap
+Schroder Real Estate Investment Trust Ltd,SREI,UK,Real Estate,Real Estate,Real Estate Investment Trusts,Diversified REITs,XLON,2.2,2.2,2.4,2.2,1.9,1.9,0.3,Small Cap
+Mangalore Refinery & Petrochemicals Ltd.,MRPL,IND,Energy,Energy,Oil Gas and Coal,Oil Refining and Marketing,XNSE,2.1,2.2,2.2,2.5,2.1,2.1,0,Small Cap
+S&U plc,SUS,UK,Financials,Financial Services,Finance and Credit Services,Consumer Lending,XLON,2.1,2.1,2.1,2.3,2.5,2.5,-0.4,Small Cap
+BioMarin Pharmaceutical Inc.,BMRN,USA,Health Care,Health Care  ,Pharmaceuticals and Biotechnology,Pharmaceuticals,XNAS,1.9,1.9,1.9,2.1,2.1,2.2,-0.3,Mid Cap
+Lennar Corporation Class A,LEN,USA,Consumer Discretionary,Consumer Products and Services,Household Goods and Home Construction,Home Construction,XNYS,1.8,1.6,1.6,1.5,1.5,1.5,0.3,Large Cap
+"NVR, Inc.",NVR,USA,Consumer Discretionary,Consumer Products and Services,Household Goods and Home Construction,Home Construction,XNYS,1.4,1.3,1.3,1.3,1.5,0.8,0.6,Mid Cap
+"O'Reilly Automotive, Inc.",ORLY,USA,Consumer Discretionary,Retail,Retailers,Specialty Retailers,XNAS,1.4,1.4,1.3,1.3,1.6,2.5,-1.1,Large Cap
+Berkshire Hathaway Inc. Class A,BRK.A,USA,Financials,Financial Services,Investment Banking and Brokerage Services,Diversified Financial Services,XNYS,0.7,0.7,0.9,1.1,0.7,0.7,0,Large Cap
